@@ -20,5 +20,6 @@ Take to bude obsahovat neco jako help, kde uvidi vsechny komandy.
 
 ## knihovny
 
-V zakladu by to melo obsahovat NumPy a Pillow.
-(dalsi knihovny se postupem vyvoje mohou pridat).
+V zakladu se oceakava collections
+
+> zmeneno naposledy 11.2.2026
