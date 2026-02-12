@@ -1,6 +1,5 @@
 from collections import Counter
-import json
-with open("11987.jpg", "rb") as file:
+with open("temporary-data/readme.html", "rb") as file:
     lines = file.readlines()
     la = 0
     for i in lines:
