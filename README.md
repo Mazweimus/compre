@@ -1,6 +1,6 @@
 # Compression script
 > [!CAUTION]  
-> Project under a development
+> Project is under a development
 
 # License
 This project is under BSD-2-Clause license
