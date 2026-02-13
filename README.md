@@ -1,5 +1,5 @@
 # Compression script
-> [!WARNING]  
+> [!CAUTION]  
 > Project under a development
 
 # License
