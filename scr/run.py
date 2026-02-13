@@ -1,9 +1,8 @@
 from collections import Counter
-with open("temporary-data/readme.html", "rb") as file:
-    lines = file.readlines()
-    la = 0
-    for i in lines:
-        # if la == 1:
-        #     break
-        print(i)
-        la = la + 1
+with open("temporary-data/11987.jpg", "rb") as file:
+    lines = file.read()
+    shtm = Counter(lines)
+    x = shtm.most_common()[-2]
+    print(x)
+    # print(shtm)
+
