@@ -6,8 +6,10 @@ with open("temporary-data/11987.jpg", "rb") as file:
     num = 0
     while(True):
         # the number is 126
-        if num == 127:
+        if num == 129:
             break
+        # if len(shtm) == 2:
+        #     break
         left = shtm.most_common()[-1]
         right = shtm.most_common()[-2]
         del shtm[left[0]]
