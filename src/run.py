@@ -1,6 +1,7 @@
 import heapq
 from collections import Counter
 import os
+import pickle
 
  
 class Node:
@@ -28,18 +29,27 @@ def buildTree(frequency):
         heapq.heappush(heap, connection)
     return(heap[0])
 
-def print_codes(node, current_code=""):
-    if node is not None:
-        if node.char is not None:
-            print(f"Byte: {node.char:<3} | Kód: {current_code}")
-            
-        print_codes(node.left, current_code + "0")
-        print_codes(node.right, current_code + "1")
+def print_codes(node, current_code="", code_dict=None):
+    if code_dict is None:
+        code_dict = {}
+    if node is None:
+        return code_dict
+    if node.char is not None:
+        code_dict[node.char] = current_code
+        
+    print_codes(node.left, current_code + "0",  code_dict)
+    print_codes(node.right, current_code + "1", code_dict)
+    return code_dict
+
+def create_compressed_file(code_dict, previousFile):
+    array = previousFile.split()
+    
 
 print("Welcome to Compre\n\nFor showing all comands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
+    "compre": "create a compressed file"
 }
 
 while True:
@@ -52,10 +62,12 @@ while True:
     elif userInput.startswith("compre"):
         with open("temporary-data/11987.jpg", "rb") as file:
             lines = file.read()
+            print(lines)
             shtm = Counter(lines)
             print("GENERATING CODE...")
             tree = buildTree(shtm)
-            print_codes(tree)
+            ass =print_codes(tree)
+            print("DONE!")
     else:
         print("\n" + userInput + "\n")
    
