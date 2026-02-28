@@ -2,6 +2,7 @@ import heapq
 from collections import Counter
 import os
 import pickle
+import tomllib
 
  
 class Node:
@@ -44,8 +45,10 @@ def print_codes(node, current_code="", code_dict=None):
 def create_compressed_file(code_dict, previousFile):
     array = previousFile.split()
     
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f) 
 
-print("Welcome to Compre\n\nFor showing all comands type \"help\"\n")
+print(f"Welcome to {config['name']}\nVersion: {config['Version']}\nFor showing all comands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
@@ -53,7 +56,7 @@ commands = {
 }
 
 while True:
-    userInput = input(str("")).lower()
+    userInput = input(str("Compre Terminal>> ")).lower()
     if (userInput == "quit" or userInput == "q"):
         break
     elif (userInput == "help"):
