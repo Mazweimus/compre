@@ -3,6 +3,7 @@ from collections import Counter
 import os
 import pickle
 import tomllib
+import json
 
  
 class Node:
@@ -71,7 +72,7 @@ while True:
     elif userInput.startswith("compre"):
         newUserInput=userInput.split()
         if(len(newUserInput) != 2):
-            print(res + f"Zadali jste neco jineho než pattern \"compre <file in public folder with type of file ext: read.jpg>\"\n")
+            print(res + f"Zadali jste neco jineho než pattern \"compre <file in public folder with type of file etc.: read.jpg>\".Nebo pokud soubor obsahuje mezeru, tak ji prosim odstran nebo ji vymen za \"-\"\n")
         else:
             cont = False
             path = os.chdir("public/")
@@ -90,6 +91,8 @@ while True:
                     print(res+" GENERATING CODE...")
                     tree = buildTree(shtm)
                     ass =print_codes(tree)
-                    print(res + "DONE!")
+                    fileWithTree=json.dumps(ass)
+                    # print(res + "DONE!")
+                    print(ass)
     else:
         print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
