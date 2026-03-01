@@ -28,7 +28,7 @@ def buildTree(frequency):
         connection.left = left
         connection.right = right
         heapq.heappush(heap, connection)
-    return(heap[0])
+    return heap[0]
 
 def print_codes(node, current_code="", code_dict=None):
     if code_dict is None:
@@ -44,35 +44,52 @@ def print_codes(node, current_code="", code_dict=None):
 
 def create_compressed_file(code_dict, previousFile):
     array = previousFile.split()
+
 res = "Compre Response>>> "
+
+
+
+
+
 with open("config.toml", "rb") as f:
     config = tomllib.load(f) 
 
-print(f"Welcome to {config['name']}\nVersion: {config['Version']}\nFor showing all commands type \"help\"\n")
+print(f"Welcome to {config['name']}\nCAUTION: This program is case sensitive\nVersion: {config['Version']}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
-    "compre": "create a compressed file"
+    "compre <file in public folder with type of file ext: read.jpg>": "create a compressed file"
 }
 
 while True:
-    userInput = input(str("Compre Terminal>> ")).lower()
+    userInput = input(str("Compre Terminal>> "))
     if (userInput == "quit" or userInput == "q"):
         break
     elif (userInput == "help"):
         for cmd, info in commands.items():
             print(res + cmd + " > " + info)
     elif userInput.startswith("compre"):
-        with open("temporary-data/11987.jpg", "rb") as file:
-            lines = file.read()
-            print(lines)
-            shtm = Counter(lines)
-            print(res+" GENERATING CODE...")
-            tree = buildTree(shtm)
-            ass =print_codes(tree)
-            print(res + "DONE!")
+        newUserInput=userInput.split()
+        if(len(newUserInput) != 2):
+            print(res + f"Zadali jste neco jineho než pattern \"compre <file in public folder with type of file ext: read.jpg>\"\n")
+        else:
+            cont = False
+            path = os.chdir("public/")
+            dir_list =os.listdir(path)
+            for file in dir_list:
+                if file == newUserInput[1]:
+                    cont = True
+                    break
+            path = os.chdir("../")
+            if cont != True:
+                print(res+ "Tento soubor jsem v public folderu nenasel. Zkuste zkontrolovat jestli opravdu vas soubor nebo jestli jste se nepřepsal")
+            else:
+                with open(f"public/{newUserInput[1]}", "rb") as file:
+                    lines = file.read()
+                    shtm = Counter(lines)
+                    print(res+" GENERATING CODE...")
+                    tree = buildTree(shtm)
+                    ass =print_codes(tree)
+                    print(res + "DONE!")
     else:
         print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
-   
-
-
