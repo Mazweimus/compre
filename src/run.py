@@ -67,7 +67,7 @@ while True:
         break
     elif (userInput == "help"):
         for cmd, info in commands.items():
-            print(res + cmd + " > " + info)
+            print(res + cmd + " : " + info)
     elif userInput.startswith("compre"):
         newUserInput=userInput.split()
         if(len(newUserInput) != 2):
