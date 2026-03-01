@@ -1,1 +1,1 @@
-
+ATTENTION: This program can only make a object of numbers(Huffman Coding) not the compressed file yet.
