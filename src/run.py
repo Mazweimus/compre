@@ -44,11 +44,11 @@ def print_codes(node, current_code="", code_dict=None):
 
 def create_compressed_file(code_dict, previousFile):
     array = previousFile.split()
-    
+res = "Compre Response>>> "
 with open("config.toml", "rb") as f:
     config = tomllib.load(f) 
 
-print(f"Welcome to {config['name']}\nVersion: {config['Version']}\nFor showing all comands type \"help\"\n")
+print(f"Welcome to {config['name']}\nVersion: {config['Version']}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
@@ -61,18 +61,18 @@ while True:
         break
     elif (userInput == "help"):
         for cmd, info in commands.items():
-            print(cmd + " > " + info)
+            print(res + cmd + " > " + info)
     elif userInput.startswith("compre"):
         with open("temporary-data/11987.jpg", "rb") as file:
             lines = file.read()
             print(lines)
             shtm = Counter(lines)
-            print("GENERATING CODE...")
+            print(res+" GENERATING CODE...")
             tree = buildTree(shtm)
             ass =print_codes(tree)
-            print("DONE!")
+            print(res + "DONE!")
     else:
-        print("\n" + userInput + "\n")
+        print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
    
 
 
