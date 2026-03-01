@@ -92,7 +92,8 @@ while True:
                     tree = buildTree(shtm)
                     ass =print_codes(tree)
                     fileWithTree=json.dumps(ass)
-                    # print(res + "DONE!")
-                    print(ass)
+                    with open("data/tree.txt", "w") as huf:
+                        huf.write(fileWithTree)
+                    print(res + "DONE! Please check the data folder for the tree. Dont worry in another update will be compressed file :))")
     else:
         print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
