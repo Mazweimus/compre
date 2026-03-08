@@ -1,0 +1,28 @@
+[project]
+name = "compre"
+version = "0.0.1"
+authors = [
+  { name="Matej Barcal", email="barcama24@sps-prosek.cz" },
+]
+description = "Simple gui library for pygame"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+Homepage = "https://seznam.cz"
+Issues = "https://seznam.cz"
+
+
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
