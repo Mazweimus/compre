@@ -10,5 +10,9 @@
 # License
 This project is under BSD-2-Clause license
 
+
+# Version Python
+It is necessary to install python version > 3.11
+
 # Library
 I am using collections, heapq, os, tomllib, json
