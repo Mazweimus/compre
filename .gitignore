@@ -1,4 +1,4 @@
 /public/*
 !/public/.gitkeep
 /data/*
-!/public/.gitkeep
+!/data/.gitkeep
