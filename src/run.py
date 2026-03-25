@@ -2,7 +2,6 @@ import heapq
 from collections import Counter
 import os
 import pickle
-import tomllib
 import json
 
  
@@ -49,13 +48,9 @@ def create_compressed_file(code_dict, previousFile):
 res = "Compre Response>>> "
 
 
+version = "0.0.2"
 
-
-
-with open("config.toml", "rb") as f:
-    config = tomllib.load(f) 
-
-print(f"Welcome to {config['name']}\nCAUTION: This program is case sensitive\nVersion: {config['Version']}\nFor showing all commands type \"help\"\n")
+print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
