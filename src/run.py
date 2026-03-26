@@ -3,6 +3,7 @@ from collections import Counter
 import os
 import pickle
 import json
+from prompt_toolkit import prompt
 
  
 class Node:
@@ -44,11 +45,13 @@ def print_codes(node, current_code="", code_dict=None):
 
 def create_compressed_file(code_dict, previousFile):
     array = previousFile.split()
+def predefined_input(normal_input, additional_input = ""):
+    return prompt(normal_input, default=additional_input)
 
 res = "Compre Response>>> "
 
 
-version = "0.0.2"
+version = "0.0.2.1"
 
 print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
@@ -64,7 +67,7 @@ helpCurrentDirectoryHelpActivate = False
 while True:
     if helpCurrentDirectoryHelpActivate:
         helpCurrentDirectoryHelpActivate = False
-    userInput = input(str("Compre Terminal>> " + helpBlock))
+    userInput = predefined_input("Compre Terminal>> ", helpBlock)
     helpBlock = ""
     if (userInput == "quit" or userInput == "q"):
         break
