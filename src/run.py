@@ -58,7 +58,7 @@ commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
     "compre <file in public folder with type of file ext: read.jpg>": "create a compressed file",
-    "compre h": "return working direcotry in next line",
+    "compre h": "return working direcotry in next line(can be changed by user)",
 }
 helpBlock = ""
 helpCurrentDirectoryHelpActivate = False
