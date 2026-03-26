@@ -2,8 +2,8 @@ import heapq
 from collections import Counter
 import os
 import pickle
-import tomllib
 import json
+from prompt_toolkit import prompt
 
  
 class Node:
@@ -45,25 +45,30 @@ def print_codes(node, current_code="", code_dict=None):
 
 def create_compressed_file(code_dict, previousFile):
     array = previousFile.split()
+def predefined_input(normal_input, additional_input = ""):
+    return prompt(normal_input, default=additional_input)
 
 res = "Compre Response>>> "
 
 
+version = "0.0.2.1"
 
-
-
-with open("config.toml", "rb") as f:
-    config = tomllib.load(f) 
-
-print(f"Welcome to {config['name']}\nCAUTION: This program is case sensitive\nVersion: {config['Version']}\nFor showing all commands type \"help\"\n")
+print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
-    "compre <file in public folder with type of file ext: read.jpg>": "create a compressed file"
+    "compre <file in public folder with type of file ext: read.jpg>": "create a compressed file",
+    "compre h": "return working direcotry in next line(can be changed by user)",
 }
+helpBlock = ""
+helpCurrentDirectoryHelpActivate = False
+
 
 while True:
-    userInput = input(str("Compre Terminal>> "))
+    if helpCurrentDirectoryHelpActivate:
+        helpCurrentDirectoryHelpActivate = False
+    userInput = predefined_input("Compre Terminal>> ", helpBlock)
+    helpBlock = ""
     if (userInput == "quit" or userInput == "q"):
         break
     elif (userInput == "help"):
@@ -71,7 +76,9 @@ while True:
             print(res + cmd + " : " + info)
     elif userInput.startswith("compre"):
         newUserInput=userInput.split()
-        if(len(newUserInput) != 2):
+        if (newUserInput[1] == "h"):
+            helpBlock = os.getcwd()
+        elif(len(newUserInput) != 2):
             print(res + f"Zadali jste neco jineho než pattern \"compre <file in public folder with type of file etc.: read.jpg>\".Nebo pokud soubor obsahuje mezeru, tak ji prosim odstran nebo ji vymen za \"-\"\n")
         else:
             cont = False
@@ -85,7 +92,7 @@ while True:
             if cont != True:
                 print(res+ "Tento soubor jsem v public folderu nenasel. Zkuste zkontrolovat jestli opravdu vas soubor nebo jestli jste se nepřepsal")
             else:
-                with open(f"public/{newUserInput[1]}", "rb") as file:
+                with open(newUserInput[1], "rb") as file:
                     lines = file.read()
                     shtm = Counter(lines)
                     print(res+" GENERATING CODE...")
