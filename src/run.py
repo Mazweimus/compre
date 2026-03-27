@@ -31,7 +31,7 @@ def buildTree(frequency):
         heapq.heappush(heap, connection)
     return heap[0]
 
-def print_codes(node, current_code="", code_dict=None):
+def build_Huff_Tree(node, current_code="", code_dict=None):
     if code_dict is None:
         code_dict = {}
     if node is None:
@@ -39,19 +39,20 @@ def print_codes(node, current_code="", code_dict=None):
     if node.char is not None:
         code_dict[node.char] = current_code
         
-    print_codes(node.left, current_code + "0",  code_dict)
-    print_codes(node.right, current_code + "1", code_dict)
+    build_Huff_Tree(node.left, current_code + "0",  code_dict)
+    build_Huff_Tree(node.right, current_code + "1", code_dict)
     return code_dict
 
 def create_compressed_file(code_dict, previousFile):
     array = previousFile.split()
+
 def predefined_input(normal_input, additional_input = ""):
     return prompt(normal_input, default=additional_input)
 
 res = "Compre Response>>> "
 
 
-version = "0.0.2.1"
+version = "0.0.3"
 
 print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
@@ -74,33 +75,29 @@ while True:
     elif (userInput == "help"):
         for cmd, info in commands.items():
             print(res + cmd + " : " + info)
-    elif userInput.startswith("compre"):
+    elif userInput.startswith("compre") and len(userInput.split()) > 1:
         newUserInput=userInput.split()
         if (newUserInput[1] == "h"):
-            helpBlock = os.getcwd()
+            helpBlock = "compre "
+            helpBlock += os.getcwd()
         elif(len(newUserInput) != 2):
             print(res + f"Zadali jste neco jineho než pattern \"compre <file in public folder with type of file etc.: read.jpg>\".Nebo pokud soubor obsahuje mezeru, tak ji prosim odstran nebo ji vymen za \"-\"\n")
         else:
-            cont = False
-            path = os.chdir("public/")
-            dir_list =os.listdir(path)
-            for file in dir_list:
-                if file == newUserInput[1]:
-                    cont = True
-                    break
-            path = os.chdir("../")
-            if cont != True:
-                print(res+ "Tento soubor jsem v public folderu nenasel. Zkuste zkontrolovat jestli opravdu vas soubor nebo jestli jste se nepřepsal")
-            else:
-                with open(newUserInput[1], "rb") as file:
-                    lines = file.read()
-                    shtm = Counter(lines)
-                    print(res+" GENERATING CODE...")
-                    tree = buildTree(shtm)
-                    ass =print_codes(tree)
-                    fileWithTree=json.dumps(ass)
-                    with open("data/tree.txt", "w") as huf:
-                        huf.write(fileWithTree)
-                    print(res + "DONE! Please check the data folder for the tree. Dont worry in another update will be compressed file :))")
+            with open(newUserInput[1], "rb") as file:
+                filelines = file.read()
+                editableBytes = bytearray(filelines)
+                shtm = Counter(filelines)
+                print(res+" GENERATING CODE...")
+                tree = buildTree(shtm)
+                huffTree =build_Huff_Tree(tree)
+                countIndexBytes = 0
+                for byte in editableBytes:
+                    normalHuffVal = huffTree[byte]
+                    print(normalHuffVal)
+                    # editableBytes[countIndexBytes] = ord(normalHuffVal)
+                    countIndexBytes = countIndexBytes + 1
+                with open("data/tree.txt", "w") as huf:
+                    huf.write(editableBytes)
+                print(res + "DONE! Please check the data folder for the tree. Dont worry in another update will be compressed file :))")
     else:
         print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
