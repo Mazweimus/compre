@@ -50,16 +50,18 @@ def predefined_input(normal_input, additional_input = ""):
 
 res = "Compre Response>>> "
 resError = "Compre Error>>> "
+resHelp = "Compre Help>>> "
 
 
-version = "0.0.3.2"
+version = "0.0.3.3"
 
 print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
-    "compre <file.jpg>": "create a compressed file",
+    "compre <path>": "create a compressed file",
     "compre h": "return working direcotry in next line(can be changed by user)",
+    "compre <path> ls": "list of the names of the entries in a directory",
 }
 helpBlock = ""
 helpCurrentDirectoryHelpActivate = False
@@ -81,8 +83,12 @@ while True:
             if (newUserInput[1] == "h"):
                 helpBlock = "compre "
                 helpBlock += os.getcwd()
-            elif(len(newUserInput) != 2):
-                print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
+            elif (len(newUserInput) == 3):
+                if (newUserInput[2] == "ls"):
+                    print(resHelp, os.listdir(newUserInput[1]))
+                    helpBlock = newUserInput[0] + " " + newUserInput[1]
+                else:
+                    print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
             else:
                 with open(newUserInput[1], "rb") as file:
                     filelines = file.read()
