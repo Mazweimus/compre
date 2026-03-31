@@ -91,13 +91,23 @@ while True:
                 tree = buildTree(shtm)
                 huffTree =build_Huff_Tree(tree)
                 countIndexBytes = 0
+                newBitesValues = []
                 for byte in editableBytes:
                     normalHuffVal = huffTree[byte]
-                    print(normalHuffVal)
+                    newBitesValues.append(normalHuffVal)
                     # editableBytes[countIndexBytes] = ord(normalHuffVal)
                     countIndexBytes = countIndexBytes + 1
-                with open("data/tree.txt", "w") as huf:
-                    huf.write(editableBytes)
+                totalLenghtBytes = "".join(newBitesValues)
+                allBytes = len(totalLenghtBytes)
+                addedBufferMultiplier = 8-(allBytes % 8)
+                totalLenghtBytes += "0" * addedBufferMultiplier
+                output_bytes = bytearray()
+                for i in range(0, len(totalLenghtBytes), 8):
+                    byte = int(totalLenghtBytes[i:i+8], 2)
+                    output_bytes.append(byte)
+
+                with open("data/tree.barcal", "wb") as huf:
+                    huf.write(output_bytes)
                 print(res + "DONE! Please check the data folder for the tree. Dont worry in another update will be compressed file :))")
     else:
         print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
