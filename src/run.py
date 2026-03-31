@@ -1,7 +1,6 @@
 import heapq
 from collections import Counter
 import os
-import pickle
 import json
 from prompt_toolkit import prompt
 
@@ -52,13 +51,13 @@ def predefined_input(normal_input, additional_input = ""):
 res = "Compre Response>>> "
 
 
-version = "0.0.3"
+version = "0.0.3.1"
 
 print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "help": "show available commands",
-    "compre <file in public folder with type of file ext: read.jpg>": "create a compressed file",
+    "compre <file.jpg>": "create a compressed file",
     "compre h": "return working direcotry in next line(can be changed by user)",
 }
 helpBlock = ""
@@ -81,7 +80,7 @@ while True:
             helpBlock = "compre "
             helpBlock += os.getcwd()
         elif(len(newUserInput) != 2):
-            print(res + f"Zadali jste neco jineho než pattern \"compre <file in public folder with type of file etc.: read.jpg>\".Nebo pokud soubor obsahuje mezeru, tak ji prosim odstran nebo ji vymen za \"-\"\n")
+            print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
         else:
             with open(newUserInput[1], "rb") as file:
                 filelines = file.read()
@@ -108,6 +107,6 @@ while True:
 
                 with open("data/tree.barcal", "wb") as huf:
                     huf.write(output_bytes)
-                print(res + "DONE! Please check the data folder for the tree. Dont worry in another update will be compressed file :))")
+                print(res + "Hotovo! Soubor naleznete v data adresáři")
     else:
-        print(res+"Je nám líto ale tento command jsem ve slovniku nenalezli. Pokud nevite jake jsou commandy napiste \"help\"\n")
+        print(res+"Neplatný příkaz. Pro pomoc napište \"help\"\n")
