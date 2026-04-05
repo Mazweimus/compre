@@ -2,6 +2,7 @@ import heapq
 from collections import Counter
 import os
 import json
+import pickle
 from prompt_toolkit import prompt
 
  
@@ -53,15 +54,17 @@ resError = "Compre Error>>> "
 resHelp = "Compre Help>>> "
 
 
-version = "0.0.3.4"
+version = "0.1.0"
 
 print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
+    "b": "return previous command",
     "help": "show available commands",
     "compre <path>": "create a compressed file",
     "compre h": "return working direcotry in next line(can be changed by user)",
     "compre <path> ls": "list of the names of the entries in a directory",
+    "compre b <path>": "return back the compressed file .barcal to normal one",
 }
 helpBlock = ""
 historyText = ""
@@ -90,8 +93,41 @@ while True:
                 if (newUserInput[2] == "ls"):
                     print(resHelp, os.listdir(newUserInput[1]))
                     helpBlock = newUserInput[0] + " " + newUserInput[1]
+                elif newUserInput[1] == "b":
+                    if len(newUserInput) > 2:
+                        with open(newUserInput[2], "rb") as compressedFile:
+                            huffTree = pickle.load(compressedFile)
+                            startOfTheCompressedFile = pickle.load(compressedFile)
+                            endOfTheCompressedFile = pickle.load(compressedFile)
+                            padding = int.from_bytes(compressedFile.read(1), byteorder="big")
+                            compressedData = compressedFile.read()
+                            biteString = ""
+                            for byte in compressedData:
+                                biteString += bin(byte)[2:].zfill(8)
+
+                            if padding > 0:
+                                biteString = biteString[:-padding]
+                            strom = buildTree(huffTree)
+                            current_uzel = strom
+                            latestData = bytearray()
+                            for bit in biteString:
+                                if bit == '0':
+                                    current_uzel = current_uzel.left
+                                else:
+                                    current_uzel = current_uzel.right
+                                    
+                                if current_uzel.char is not None:
+                                    latestData.append(current_uzel.char)
+                                    current_uzel = strom
+
+                            with open(startOfTheCompressedFile+endOfTheCompressedFile, "wb") as f:
+                                f.write(latestData)
+                    else:
+                        print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
+                        
                 else:
                     print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
+            #sdad
             else:
                 with open(newUserInput[1], "rb") as file:
                     filelines = file.read()
@@ -102,10 +138,11 @@ while True:
                     huffTree =build_Huff_Tree(tree)
                     countIndexBytes = 0
                     newBitesValues = []
+                    endOfTheFile = os.path.splitext(newUserInput[1])[1]
+                    startOfTheFile = os.path.splitext(newUserInput[1])[0]
                     for byte in editableBytes:
                         normalHuffVal = huffTree[byte]
                         newBitesValues.append(normalHuffVal)
-                        # editableBytes[countIndexBytes] = ord(normalHuffVal)
                         countIndexBytes = countIndexBytes + 1
                     totalLenghtBytes = "".join(newBitesValues)
                     allBytes = len(totalLenghtBytes)
@@ -117,6 +154,10 @@ while True:
                         output_bytes.append(byte)
 
                     with open("data/tree.barcal", "wb") as huf:
+                        pickle.dump(shtm, huf)
+                        pickle.dump(startOfTheFile, huf)
+                        pickle.dump(endOfTheFile, huf)
+                        huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
                         huf.write(output_bytes)
                     print(res + "Hotovo! Soubor naleznete v data adresáři")
         else:
