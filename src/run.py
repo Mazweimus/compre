@@ -53,7 +53,7 @@ resError = "Compre Error>>> "
 resHelp = "Compre Help>>> "
 
 
-version = "0.0.3.3"
+version = "0.0.3.4"
 
 print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
@@ -64,6 +64,7 @@ commands = {
     "compre <path> ls": "list of the names of the entries in a directory",
 }
 helpBlock = ""
+historyText = ""
 helpCurrentDirectoryHelpActivate = False
 
 
@@ -75,6 +76,8 @@ while True:
     try:
         if (userInput == "quit" or userInput == "q"):
             break
+        elif (userInput == "b"):
+            helpBlock = historyText
         elif (userInput == "help"):
             for cmd, info in commands.items():
                 print(res + cmd + " : " + info)
@@ -120,3 +123,4 @@ while True:
             print(res+"Neplatný příkaz. Pro pomoc napište \"help\"\n")
     except Exception as e:
         print(resError,e)
+    historyText = userInput
