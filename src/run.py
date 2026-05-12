@@ -51,16 +51,8 @@ def create_compressed_file(code_dict, previousFile):
 
 def predefined_input(normal_input, additional_input = ""):
     return prompt(normal_input, default=additional_input)
-
 #? main logic
-res = "Compre Response>>> "
-resError = "Compre Error>>> "
-resHelp = "Compre Help>>> "
 
-
-version = "0.1.1"
-
-# print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 commands = {
     "q/quit": "exit the program",
     "b": "return previous command",
@@ -71,46 +63,91 @@ commands = {
     "compre b <path>": "return back the compressed file .barcal to normal one",
 }
 def newMain():
-    parser = argparse.ArgumentParser(description="process file path")
+    parser = argparse.ArgumentParser(description="process file path", suggest_on_error=True)
     parser.add_argument("-r", "--route", type=str, help="route to the file")
+    parser.add_argument("-b", "--route_back", type=str, help="route to the back file")
     args = parser.parse_args()
+    
+    if args.route and args.route_back:
+        sys.exit("Pocet povolenych argumentu je pouze 1")
+    elif args.route:
+        with open(args.route, "rb") as file:
+            filelines = file.read()
+            editableBytes = bytearray(filelines)
+            shtm = Counter(filelines)
+            tree = buildTree(shtm)
+            huffTree =build_Huff_Tree(tree)
+            countIndexBytes = 0
+            newBitesValues = []
+            endOfTheFile = os.path.splitext(args.route)[1]
+            startOfTheFile = os.path.splitext(args.route)[0]
+            for byte in editableBytes:
+                normalHuffVal = huffTree[byte]
+                newBitesValues.append(normalHuffVal)
+                countIndexBytes = countIndexBytes + 1
+            totalLenghtBytes = "".join(newBitesValues)
+            allBytes = len(totalLenghtBytes)
+            addedBufferMultiplier = 8-(allBytes % 8)
+            totalLenghtBytes += "0" * addedBufferMultiplier
+            output_bytes = bytearray()
+            for i in range(0, len(totalLenghtBytes), 8):
+                byte = int(totalLenghtBytes[i:i+8], 2)
+                output_bytes.append(byte)
 
-    with open(args.route, "rb") as file:
-        filelines = file.read()
-        editableBytes = bytearray(filelines)
-        shtm = Counter(filelines)
-        tree = buildTree(shtm)
-        huffTree =build_Huff_Tree(tree)
-        countIndexBytes = 0
-        newBitesValues = []
-        endOfTheFile = os.path.splitext(args.route)[1]
-        startOfTheFile = os.path.splitext(args.route)[0]
-        for byte in editableBytes:
-            normalHuffVal = huffTree[byte]
-            newBitesValues.append(normalHuffVal)
-            countIndexBytes = countIndexBytes + 1
-        totalLenghtBytes = "".join(newBitesValues)
-        allBytes = len(totalLenghtBytes)
-        addedBufferMultiplier = 8-(allBytes % 8)
-        totalLenghtBytes += "0" * addedBufferMultiplier
-        output_bytes = bytearray()
-        for i in range(0, len(totalLenghtBytes), 8):
-            byte = int(totalLenghtBytes[i:i+8], 2)
-            output_bytes.append(byte)
+            with open("data/tree.barcal", "wb") as huf:
+                pickle.dump(shtm, huf)
+                pickle.dump(startOfTheFile, huf)
+                pickle.dump(endOfTheFile, huf)
+                huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
+                huf.write(output_bytes)
+            print("Hotovo! Soubor naleznete v data adresáři")
+            sys.exit(0)
+    elif args.route_back:
+        with open(args.route_back, "rb") as compressedFile:
+            huffTree = pickle.load(compressedFile)
+            startOfTheCompressedFile = pickle.load(compressedFile)
+            endOfTheCompressedFile = pickle.load(compressedFile)
+            padding = int.from_bytes(compressedFile.read(1), byteorder="big")
+            compressedData = compressedFile.read()
+            biteString = ""
+            for byte in compressedData:
+                biteString += bin(byte)[2:].zfill(8)
 
-        with open("data/tree.barcal", "wb") as huf:
-            pickle.dump(shtm, huf)
-            pickle.dump(startOfTheFile, huf)
-            pickle.dump(endOfTheFile, huf)
-            huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
-            huf.write(output_bytes)
-        print(res + "Hotovo! Soubor naleznete v data adresáři")
-newMain()
+            if padding > 0:
+                biteString = biteString[:-padding]
+            strom = buildTree(huffTree)
+            current_uzel = strom
+            latestData = bytearray()
+            for bit in biteString:
+                if bit == '0':
+                    current_uzel = current_uzel.left
+                else:
+                    current_uzel = current_uzel.right
+                    
+                if current_uzel.char is not None:
+                    latestData.append(current_uzel.char)
+                    current_uzel = strom
+
+            with open(startOfTheCompressedFile+endOfTheCompressedFile, "wb") as f:
+                f.write(latestData)
+                print("hotovo")
+    else:
+        main()
+
+
+    
 def main():
+    res = "Compre Response>>> "
+    resError = "Compre Error>>> "
+    resHelp = "Compre Help>>> "
+
+
+    version = "0.1.2"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
 
+    print(f"Welcome to COMPRE\nCAUTION: This program is case sensitive\nVersion: {version}\nFor showing all commands type \"help\"\n")
 
     while True:
         if helpCurrentDirectoryHelpActivate:
@@ -205,3 +242,5 @@ def main():
         except Exception as e:
             print(resError,e)
         historyText = userInput
+
+newMain()
