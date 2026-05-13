@@ -8,7 +8,6 @@ import argparse
 import sys
 import time
 
-#?define function
 class Node:
     def __init__(self, char, freq):
         self.char = char
@@ -51,7 +50,6 @@ def create_compressed_file(code_dict, previousFile):
 
 def predefined_input(normal_input, additional_input = ""):
     return prompt(normal_input, default=additional_input)
-#? main logic
 
 commands = {
     "q/quit": "exit the program",
@@ -66,6 +64,7 @@ def newMain():
     parser = argparse.ArgumentParser(description="process file path", suggest_on_error=True)
     parser.add_argument("-r", "--route", type=str, help="route to the file")
     parser.add_argument("-b", "--route_back", type=str, help="route to the back file")
+    parser.add_argument("-s", "--save_route", type=str, help="route where the file can be saved")
     args = parser.parse_args()
     
     if args.route and args.route_back:
@@ -83,17 +82,20 @@ def newMain():
             startOfTheFile = os.path.splitext(args.route)[0]
             osPath = startOfTheFile[::-1]
             startTime = time.time()
-            maxAllowedTime = startTime+2
+            maxAllowedTime = startTime+0.5 #TODO toto otestovat, aby se urcilo o kolik sekund se bude jednat
+            fileName = ""
             while True:
                 if time.time() > maxAllowedTime:
-                    raise RuntimeError("Z nejakeho duvodu to nefunguje")
+                    raise RuntimeError("Vyprcel cas na to aby se urcila cesta, prosim zkuste to znovu")
                 if osPath[0] == "/" or osPath[0] == "\\":
                     break
                 else:
+                    fileName += osPath[0]
                     osPath = osPath[1:] 
+            fileName = fileName[::-1]
             osPath = osPath[::-1]
             print(osPath)
-            # print(endOfTheFile)
+            print(fileName)
             for byte in editableBytes:
                 normalHuffVal = huffTree[byte]
                 newBitesValues.append(normalHuffVal)
@@ -106,13 +108,16 @@ def newMain():
             for i in range(0, len(totalLenghtBytes), 8):
                 byte = int(totalLenghtBytes[i:i+8], 2)
                 output_bytes.append(byte)
-
-            # with open(startOfTheFile + "tree.barcal", "wb") as huf:
-            #     pickle.dump(shtm, huf)
-            #     pickle.dump(startOfTheFile, huf)
-            #     pickle.dump(endOfTheFile, huf)
-            #     huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
-            #     huf.write(output_bytes)
+            if args.save_route:
+                saveRoute = args.save_route + fileName + ".barcal"
+            else:
+                saveRoute = osPath + "/" + fileName + ".barcal"
+            with open(saveRoute, "wb") as huf:
+                pickle.dump(shtm, huf)
+                pickle.dump(startOfTheFile, huf)
+                pickle.dump(endOfTheFile, huf)
+                huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
+                huf.write(output_bytes)
             print("Hotovo! Soubor naleznete v data adresáři")
             sys.exit(0)
     elif args.route_back:
@@ -155,7 +160,7 @@ def main():
     resHelp = "Compre Help>>> "
 
 
-    version = "0.1.2"
+    version = "0.1.3"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
