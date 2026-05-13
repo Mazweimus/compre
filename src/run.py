@@ -6,7 +6,7 @@ import pickle
 from prompt_toolkit import prompt
 import argparse
 import sys
-
+import time
 
 #?define function
 class Node:
@@ -81,6 +81,19 @@ def newMain():
             newBitesValues = []
             endOfTheFile = os.path.splitext(args.route)[1]
             startOfTheFile = os.path.splitext(args.route)[0]
+            osPath = startOfTheFile[::-1]
+            startTime = time.time()
+            maxAllowedTime = startTime+2
+            while True:
+                if time.time() > maxAllowedTime:
+                    raise RuntimeError("Z nejakeho duvodu to nefunguje")
+                if osPath[0] == "/" or osPath[0] == "\\":
+                    break
+                else:
+                    osPath = osPath[1:] 
+            osPath = osPath[::-1]
+            print(osPath)
+            # print(endOfTheFile)
             for byte in editableBytes:
                 normalHuffVal = huffTree[byte]
                 newBitesValues.append(normalHuffVal)
@@ -94,12 +107,12 @@ def newMain():
                 byte = int(totalLenghtBytes[i:i+8], 2)
                 output_bytes.append(byte)
 
-            with open("data/tree.barcal", "wb") as huf:
-                pickle.dump(shtm, huf)
-                pickle.dump(startOfTheFile, huf)
-                pickle.dump(endOfTheFile, huf)
-                huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
-                huf.write(output_bytes)
+            # with open(startOfTheFile + "tree.barcal", "wb") as huf:
+            #     pickle.dump(shtm, huf)
+            #     pickle.dump(startOfTheFile, huf)
+            #     pickle.dump(endOfTheFile, huf)
+            #     huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
+            #     huf.write(output_bytes)
             print("Hotovo! Soubor naleznete v data adresáři")
             sys.exit(0)
     elif args.route_back:
