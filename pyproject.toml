@@ -1,28 +1,30 @@
 [project]
 name = "compre"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
   { name="Matej Barcal", email="barcama24@sps-prosek.cz" },
 ]
-description = "Simple gui library for pygame"
+description = "Simple Huffman coding console comprimator"
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable"
+    "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
 dynamic = ["dependencies"]
+license = "BSD-2-Clause"
+keywords = ["compression", "decompression", "Huffman", "Huffman coding"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
-Homepage = "https://seznam.cz"
-Issues = "https://seznam.cz"
+Homepage = "https://github.com/Mazweimus/compre"
+Issues = "https://github.com/Mazweimus/compre/issues"
 
 
 [build-system]
-# Minimum requirements for the build system to execute.
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
