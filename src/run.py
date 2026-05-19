@@ -18,7 +18,8 @@ class Node:
     def __lt__(self, other):
         return self.freq < other.freq
 
-def buildTree(frequency):
+def buildTree(frequency:Counter) -> Counter:
+    """Build Huffman Tree by frequency and binary number, only in array using heapq"""
     heap = []
     for char, freq in frequency.items():
         newNode = Node(char, freq)
@@ -33,7 +34,8 @@ def buildTree(frequency):
         heapq.heappush(heap, connection)
     return heap[0]
 
-def build_Huff_Tree(node, current_code="", code_dict=None):
+def build_Huff_Tree(node:Node, current_code:str="", code_dict:None=None) -> Node:
+    """Recursive function to setup the tree using DFS"""
     if code_dict is None:
         code_dict = {}
     if node is None:
@@ -45,10 +47,8 @@ def build_Huff_Tree(node, current_code="", code_dict=None):
     build_Huff_Tree(node.right, current_code + "1", code_dict)
     return code_dict
 
-def create_compressed_file(code_dict, previousFile):
-    array = previousFile.split()
-
-def predefined_input(normal_input, additional_input = ""):
+def predefined_input(normal_input:str, additional_input:str = "") -> prompt:
+    """Input using last user query, that can be modifed"""
     return prompt(normal_input, default=additional_input)
 
 commands = {
@@ -82,11 +82,11 @@ def newMain():
             startOfTheFile = os.path.splitext(args.route)[0]
             osPath = startOfTheFile[::-1]
             startTime = time.time()
-            maxAllowedTime = startTime+0.5 #TODO toto otestovat, aby se urcilo o kolik sekund se bude jednat
+            maxAllowedTime = startTime+0.05
             fileName = ""
             while True:
                 if time.time() > maxAllowedTime:
-                    raise RuntimeError("Vyprcel cas na to aby se urcila cesta, prosim zkuste to znovu")
+                    raise RuntimeError("Vyprcel cas na to aby se urcila cesta, prosim zkontrolujte si, zda jste urcili dobre cestu")
                 if osPath[0] == "/" or osPath[0] == "\\":
                     break
                 else:
@@ -94,8 +94,6 @@ def newMain():
                     osPath = osPath[1:] 
             fileName = fileName[::-1]
             osPath = osPath[::-1]
-            print(osPath)
-            print(fileName)
             for byte in editableBytes:
                 normalHuffVal = huffTree[byte]
                 newBitesValues.append(normalHuffVal)
