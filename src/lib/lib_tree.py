@@ -2,6 +2,7 @@ import heapq
 from collections import Counter
 
 class Node:
+    """Je to trida na zaznamenavani uzlu v Huffman Tree"""
     def __init__(self, char, freq):
         self.char = char
         self.freq = freq
