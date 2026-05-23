@@ -8,7 +8,7 @@ import lib.lib_file as lib_file
 
 def CLI_interface():
     """Start the script with argparse"""
-    parser = argparse.ArgumentParser(description="process file path", suggest_on_error=True)
+    parser = argparse.ArgumentParser(description="process file path")
     parser.add_argument("-r", "--route", type=str, help="route to the file")
     parser.add_argument("-b", "--route_back", type=str, help="route to the back file")
     parser.add_argument("-s", "--save_route", type=str, help="route where the file can be saved")

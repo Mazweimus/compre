@@ -1,2 +1,4 @@
 /data/*
 !/data/.gitkeep
+/src/__pycache__/*
+/src/lib/__pycache__/*
