@@ -36,7 +36,7 @@ def command_own_interface():
     resHelp = "Compre Help>>> "
 
 
-    version = "0.1.5"
+    version = "0.1.6"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
@@ -60,6 +60,9 @@ def command_own_interface():
                 newUserInput=userInput.split()
                 if (newUserInput[1] == "h"):
                     helpBlock = "compre "
+                    helpBlock += os.getcwd()
+                elif(newUserInput[1] == "bh"):
+                    helpBlock = "compre b "
                     helpBlock += os.getcwd()
                 elif (len(newUserInput) == 3):
                     if (newUserInput[2] == "ls"):
@@ -87,7 +90,8 @@ commands = {
     "b": "return previous command",
     "help": "show available commands",
     "compre <path>": "create a compressed file",
-    "compre h": "return working direcotry in next line(can be changed by user)",
+    "compre h": "return working directory in next line(can be changed by user)",
+    "compre bh": "return working directory used to decompressed(can be changed by user)",
     "compre <path> ls": "list of the names of the entries in a directory",
     "compre b <path>": "return back the compressed file .barcal to normal one",
 }
