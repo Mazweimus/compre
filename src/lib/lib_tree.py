@@ -41,3 +41,16 @@ def build_Huff_Tree(node:Node, current_code:str="", code_dict:None=None) -> Node
     build_Huff_Tree(node.right, current_code + "1", code_dict)
     return code_dict
 
+def createCouterBytes(counterData : Counter) -> object:
+    """Recreate Counter object into bytes due to secure storing"""
+    CounterTree = bytes()
+    counter = 0
+    for char, freq in counterData.items():
+        CounterTree += char.to_bytes(2, byteorder="big")
+        CounterTree += freq.to_bytes(2, byteorder="big")
+        counter += 1
+    return {counter, counterData}
+def turnFileNameToBytes(startOfTheFile:str, endOfTheFile:str) -> object:
+    """Create folder location in bytes due to secure storing"""
+    ...
+    
