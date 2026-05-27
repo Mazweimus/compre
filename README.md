@@ -13,15 +13,15 @@ pip install -r requirements.txt
 - Project can be used in 2 ways
 1. CLI interface
 ```
-python src/main.py -r <route to the file that you want to compress>
+python src/run.py -r <route to the file that you want to compress>
 
 # If you want to see all available commands
-python src/main.py -h
+python src/run.py -h
 ```
 
 2. CLI application
 ```
-python src/main.py
+python src/run.py
 ```
 - This will start python application
 
