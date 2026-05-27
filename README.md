@@ -3,9 +3,28 @@
 > Project is under a development
 
 # Installation
-1. Install all files.
-2. if you dont have installed python install it online in original documentation https://www.python.org/
-3. Now open cmd where you installed files and type python "python src/run.py"
+- Download github repository as .zip
+- Download appropriate libraries used in the project
+```
+pip install -r requirements.txt
+```
+
+# Usage 
+- Project can be used in 2 ways
+1. CLI interface
+```
+python src/main.py -r <route to the file that you want to compress>
+
+# If you want to see all available commands
+python src/main.py -h
+```
+
+2. CLI application
+```
+python src/main.py
+```
+- This will start python application
+
 
 # License
 This project is under BSD-2-Clause license
@@ -15,4 +34,4 @@ This project is under BSD-2-Clause license
 It is necessary to install python version > 3.12
 
 # Library
-I am using collections, heapq, os, tomllib, json
+os, collections, pickle, time, prompt_toolkit, sys, argparse, heapq
