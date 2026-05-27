@@ -1,6 +1,6 @@
 # Compression script
-> [!CAUTION]  
-> Project is under a development
+Compression and decompression program using idea of Huffman tree. Project can be used in 2 ways. CLI (argparse) and Command application. 
+For uderstanding all fucntion, check 'docs/index.html' page
 
 # Installation
 - Download github repository as .zip
