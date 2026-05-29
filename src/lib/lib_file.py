@@ -59,6 +59,8 @@ def createNormalFile(route:str) -> None:
     with open(route, "rb") as compressedFile:
         huffTree = pickle.load(compressedFile)
         startOfTheCompressedFile = pickle.load(compressedFile)
+        if os.path.exists(startOfTheCompressedFile) is False:
+            startOfTheCompressedFile = os.getcwd()
         endOfTheCompressedFile = pickle.load(compressedFile)
         padding = int.from_bytes(compressedFile.read(1), byteorder="big")
         compressedData = compressedFile.read()
