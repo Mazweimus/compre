@@ -47,14 +47,11 @@ def createCompressFile(route:str, save_route_status=False) -> None:
         else:
             saveRoute = osPath + "/" + fileName + ".barcal"
         with open(saveRoute, "wb") as huf:
-            CounterDataObject = lib_tree.createCouterBytes(shtm)
-            nameOfTheFileBytes = lib_tree.turnFileNameToBytes(startOfTheFile, endOfTheFile)
-            huf.write(CounterDataObject[0]) #Number of 2 bytes, that is used to know, how many cycles the compress algorithm does
-            huf.write(nameOfTheFileBytes[0]) #name and path of the file
-            huf.write(nameOfTheFileBytes[1]) # end of the file .
+            pickle.dump(shtm, huf)
+            pickle.dump(startOfTheFile, huf)
+            pickle.dump(endOfTheFile, huf)
             huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
             huf.write(output_bytes)
-            huf.write(CounterDataObject[1])
         print("Hotovo! Soubor naleznete v data adresáři")
 
 def createNormalFile(route:str) -> None:
