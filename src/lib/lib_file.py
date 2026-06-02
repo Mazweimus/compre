@@ -87,3 +87,18 @@ def createNormalFile(route:str) -> None:
             f.write(latestData)
             print("hotovo")
 
+# TODO do a testing on these functions
+def setupBytesForTar(ar_of_files:list) -> list:
+    ar_of_bytes_files = []
+    for route_file in ar_of_files:
+        with open(route_file, "rb") as file:
+            fileRead = file.read()
+            editableBytes = bytearray(fileRead)
+            ar_of_bytes_files.append(editableBytes)
+    return ar_of_bytes_files
+def putBytesTogether(ar_of_bytes:list)->bytearray:
+    returnBytes = bytearray()
+    for fileByte in ar_of_bytes:
+        returnBytes += fileByte
+    return returnBytes
+

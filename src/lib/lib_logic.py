@@ -36,7 +36,7 @@ def command_own_interface():
     resHelp = "Compre Help>>> "
 
 
-    version = "0.1.7"
+    version = "1.0.0 - BETA"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
@@ -64,6 +64,16 @@ def command_own_interface():
                 elif(newUserInput[1] == "bh"):
                     helpBlock = "compre b "
                     helpBlock += os.getcwd()
+                elif newUserInput[1] == "tar":
+                    splittedFiles = newUserInput[2:]
+                    newSplittedFiles = []
+                    for folderDirecotry in splittedFiles:
+                        if folderDirecotry[-1] == ",": 
+                            newSplittedFiles.append(folderDirecotry[:-1])                        
+                        else:
+                            newSplittedFiles.append(folderDirecotry)
+                    newArrayOfBytes = lib_file.setupBytesForTar(newSplittedFiles)
+                    print(newArrayOfBytes)
                 elif (len(newUserInput) == 3):
                     if (newUserInput[2] == "ls"):
                         print(resHelp, os.listdir(newUserInput[1]))
@@ -73,7 +83,6 @@ def command_own_interface():
                             lib_file.createNormalFile(newUserInput[2])
                         else:
                             print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
-                            
                     else:
                         print(res + f"Neplatný příkaz. Pro pomoc napište \"help\"\n")
                 else:
@@ -94,4 +103,5 @@ commands = {
     "compre bh": "return working directory used to decompressed(can be changed by user)",
     "compre <path> ls": "list of the names of the entries in a directory",
     "compre b <path>": "return back the compressed file .barcal to normal one",
+    "compre tar <path1>, <path2>, <pathX>": "create .barcal file with information of the X files you are passed to it",
 }
