@@ -1,4 +1,8 @@
 # Compression script
+> [!WARNING]  
+> Do not use spaces in the file name.
+> It would cause unexepected behavior of the application
+
 Compression and decompression program using idea of Huffman tree. Project can be used in 2 ways. CLI (argparse) and Command application. 
 For uderstanding all fucntion, check 'docs/index.html' page
 
