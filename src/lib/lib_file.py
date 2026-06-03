@@ -43,12 +43,13 @@ def createCompressFile(route:str, save_route_status=False) -> None:
             byte = int(totalLenghtBytes[i:i+8], 2)
             output_bytes.append(byte)
         if save_route_status:
-            saveRoute = save_route_status + fileName + ".barcal"
+            saveRoute = save_route_status + "/" + fileName + ".barcal"
         else:
             saveRoute = osPath + "/" + fileName + ".barcal"
         with open(saveRoute, "wb") as huf:
             pickle.dump(shtm, huf)
             pickle.dump(startOfTheFile, huf)
+            pickle.dump(fileName, huf)
             pickle.dump(endOfTheFile, huf)
             huf.write(addedBufferMultiplier.to_bytes(1, byteorder='big'))
             huf.write(output_bytes)
@@ -61,6 +62,7 @@ def createNormalFile(route:str) -> None:
         startOfTheCompressedFile = pickle.load(compressedFile)
         if os.path.exists(startOfTheCompressedFile) is False:
             startOfTheCompressedFile = os.getcwd()
+        fileName = pickle.load(compressedFile)
         endOfTheCompressedFile = pickle.load(compressedFile)
         padding = int.from_bytes(compressedFile.read(1), byteorder="big")
         compressedData = compressedFile.read()
@@ -82,8 +84,10 @@ def createNormalFile(route:str) -> None:
             if current_uzel.char is not None:
                 latestData.append(current_uzel.char)
                 current_uzel = strom
-
-        with open(startOfTheCompressedFile+endOfTheCompressedFile, "wb") as f:
+        print(startOfTheCompressedFile)
+        print(fileName)
+        print(endOfTheCompressedFile)
+        with open(startOfTheCompressedFile+ "/" + fileName+endOfTheCompressedFile, "wb") as f:
             f.write(latestData)
             print("hotovo")
 

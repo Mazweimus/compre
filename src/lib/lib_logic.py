@@ -9,17 +9,21 @@ import lib.lib_file as lib_file
 def CLI_interface():
     """Start the script with argparse"""
     parser = argparse.ArgumentParser(description="process file path")
-    parser.add_argument("-r", "--route", type=str, help="route to the file")
-    parser.add_argument("-b", "--route_back", type=str, help="route to the back file")
+    parser.add_argument("-r", "--route", type=str, help="route to the file you want to compress")
+    parser.add_argument("-b", "--route_back", type=str, help=".barcal file back to original")
     parser.add_argument("-s", "--save_route", type=str, help="route where the file can be saved")
     args = parser.parse_args()
     
     if args.route and args.route_back:
         sys.exit("Pocet povolenych argumentu -b, -r je pouze 1")
     elif args.route:
-        lib_file.createCompressFile(args.route, args.route_back)
+        print(args.save_route)
+        lib_file.createCompressFile(args.route, args.save_route)
         sys.exit(0)
     elif args.route_back:
+        if args.save_route:
+            print("Nelze pri paramentru -b data parametr -s")
+            sys.exit(0)
         lib_file.createNormalFile(args.route_back)
     else:
         command_own_interface()
