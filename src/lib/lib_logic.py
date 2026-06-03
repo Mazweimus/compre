@@ -73,7 +73,7 @@ def command_own_interface():
                         else:
                             newSplittedFiles.append(folderDirecotry)
                     newArrayOfBytes = lib_file.setupBytesForTar(newSplittedFiles)
-                    print(newArrayOfBytes)
+                    oneBigByteArrayOfFiles = lib_file.putBytesTogether(newArrayOfBytes)
                 elif (len(newUserInput) == 3):
                     if (newUserInput[2] == "ls"):
                         print(resHelp, os.listdir(newUserInput[1]))

@@ -87,7 +87,6 @@ def createNormalFile(route:str) -> None:
             f.write(latestData)
             print("hotovo")
 
-# TODO do a testing on these functions
 def setupBytesForTar(ar_of_files:list) -> list:
     ar_of_bytes_files = []
     for route_file in ar_of_files:
@@ -102,3 +101,22 @@ def putBytesTogether(ar_of_bytes:list)->bytearray:
         returnBytes += fileByte
     return returnBytes
 
+def DOSMTh(oneBigByteArray:bytearray, separateArrayOfFiles:list[bytearray]):
+    oneBigByteCounter = Counter(oneBigByteArray)
+    CounterTree = lib_tree.buildTree(oneBigByteCounter)
+    huffTree = lib_tree.build_Huff_Tree(CounterTree)
+    for fileBytes in separateArrayOfFiles:
+        countIndexBytes = 0
+        newBitesValues = []
+        for byte in fileBytes:
+            normalHuffVal = huffTree[byte]
+            newBitesValues.append(normalHuffVal)
+            countIndexBytes = countIndexBytes + 1
+    totalLenghtBytes = "".join(newBitesValues)
+    allBytes = len(totalLenghtBytes)
+    addedBufferMultiplier = 8-(allBytes % 8)
+    totalLenghtBytes += "0" * addedBufferMultiplier
+    output_bytes = bytearray()
+    for i in range(0, len(totalLenghtBytes), 8):
+        byte = int(totalLenghtBytes[i:i+8], 2)
+        output_bytes.append(byte)
