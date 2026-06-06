@@ -19,11 +19,11 @@ def CLI_interface():
     elif args.route:
         print(args.save_route)
         lib_file.createCompressFile(args.route, args.save_route)
-        sys.exit(0)
+        sys.exit(-1)
     elif args.route_back:
         if args.save_route:
             print("Nelze pri paramentru -b data parametr -s")
-            sys.exit(0)
+            sys.exit(-1)
         lib_file.createNormalFile(args.route_back)
     else:
         command_own_interface()
@@ -40,7 +40,7 @@ def command_own_interface():
     resHelp = "Compre Help>>> "
 
 
-    version = "1.0.0 - BETA"
+    version = "1.0.1 - BETA"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
