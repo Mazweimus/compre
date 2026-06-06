@@ -2,6 +2,7 @@ import time
 import pickle
 from collections import Counter
 import os
+import sys
 import lib.lib_tree as lib_tree
 
 def createCompressFile(route:str, save_route_status=False) -> None:
@@ -57,6 +58,9 @@ def createCompressFile(route:str, save_route_status=False) -> None:
 
 def createNormalFile(route:str) -> None:
     """From .barcal file converts to file that was previously"""
+    if os.path.exists(route) is False:
+        print("Tato cesta v tomto zarineni neexistuje")
+        sys.exit(-1)
     with open(route, "rb") as compressedFile:
         huffTree = pickle.load(compressedFile)
         startOfTheCompressedFile = pickle.load(compressedFile)
@@ -84,9 +88,6 @@ def createNormalFile(route:str) -> None:
             if current_uzel.char is not None:
                 latestData.append(current_uzel.char)
                 current_uzel = strom
-        print(startOfTheCompressedFile)
-        print(fileName)
-        print(endOfTheCompressedFile)
         with open(startOfTheCompressedFile+ "/" + fileName+endOfTheCompressedFile, "wb") as f:
             f.write(latestData)
             print("hotovo")

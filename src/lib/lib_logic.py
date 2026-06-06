@@ -17,12 +17,11 @@ def CLI_interface():
     if args.route and args.route_back:
         sys.exit("Pocet povolenych argumentu -b, -r je pouze 1")
     elif args.route:
-        print(args.save_route)
         lib_file.createCompressFile(args.route, args.save_route)
         sys.exit(-1)
     elif args.route_back:
         if args.save_route:
-            print("Nelze pri paramentru -b data parametr -s")
+            print("Nelze pri paramentru -b dat parametr -s")
             sys.exit(-1)
         lib_file.createNormalFile(args.route_back)
     else:
@@ -40,7 +39,7 @@ def command_own_interface():
     resHelp = "Compre Help>>> "
 
 
-    version = "1.0.1 - BETA"
+    version = "1.0.2 - BETA"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
