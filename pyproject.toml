@@ -6,10 +6,10 @@ authors = [
 ]
 description = "Simple Huffman coding console comprimator"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 classifiers = [
     "Development Status :: 5 - Production/Stable"
-    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
 ]
 dynamic = ["dependencies"]
