@@ -39,7 +39,7 @@ def command_own_interface():
     resHelp = "Compre Help>>> "
 
 
-    version = "1.0.3 - BETA"
+    version = "1.0.4 - BETA"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False
@@ -67,16 +67,16 @@ def command_own_interface():
                 elif(newUserInput[1] == "bh"):
                     helpBlock = "compre b "
                     helpBlock += os.getcwd()
-                elif newUserInput[1] == "tar":
-                    splittedFiles = newUserInput[2:]
-                    newSplittedFiles = []
-                    for folderDirecotry in splittedFiles:
-                        if folderDirecotry[-1] == ",": 
-                            newSplittedFiles.append(folderDirecotry[:-1])                        
-                        else:
-                            newSplittedFiles.append(folderDirecotry)
-                    newArrayOfBytes = lib_file.setupBytesForTar(newSplittedFiles)
-                    oneBigByteArrayOfFiles = lib_file.putBytesTogether(newArrayOfBytes)
+                # elif newUserInput[1] == "tar":
+                #     splittedFiles = newUserInput[2:]
+                #     newSplittedFiles = []
+                #     for folderDirecotry in splittedFiles:
+                #         if folderDirecotry[-1] == ",": 
+                #             newSplittedFiles.append(folderDirecotry[:-1])                        
+                #         else:
+                #             newSplittedFiles.append(folderDirecotry)
+                    # newArrayOfBytes = lib_file.setupBytesForTar(newSplittedFiles)
+                    # oneBigByteArrayOfFiles = lib_file.putBytesTogether(newArrayOfBytes)
                 elif (len(newUserInput) == 3):
                     if (newUserInput[2] == "ls"):
                         print(resHelp, os.listdir(newUserInput[1]))
@@ -106,5 +106,5 @@ commands = {
     "compre bh": "return working directory used to decompressed(can be changed by user)",
     "compre <path> ls": "list of the names of the entries in a directory",
     "compre b <path>": "return back the compressed file .barcal to normal one",
-    "compre tar <path1>, <path2>, <pathX>": "create .barcal file with information of the X files you are passed to it",
+    # "compre tar <path1>, <path2>, <pathX>": "create .barcal file with information of the X files you are passed to it",
 }

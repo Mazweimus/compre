@@ -40,3 +40,4 @@ def build_Huff_Tree(node:Node, current_code:str="", code_dict:None=None) -> Node
     build_Huff_Tree(node.left, current_code + "0",  code_dict)
     build_Huff_Tree(node.right, current_code + "1", code_dict)
     return code_dict
+

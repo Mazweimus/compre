@@ -37,6 +37,9 @@ def createCompressFile(route:str, save_route_status=False) -> None:
                 osPath = osPath[1:] 
         fileName = fileName[::-1]
         osPath = osPath[::-1]
+        numCheck = checkIfOsPathExistsOnBarcalFile(osPath, fileName)
+        if numCheck is not None:
+            fileName = fileName+"("+str(numCheck)+")"
         for byte in editableBytes:
             normalHuffVal = huffTree[byte]
             newBitesValues.append(normalHuffVal)
@@ -100,8 +103,25 @@ def createNormalFile(route:str) -> None:
         with open(startOfTheCompressedFile+ "/" + fileName+endOfTheCompressedFile, "wb") as f:
             f.write(latestData)
             print("hotovo")
+def checkIfOsPathExistsOnBarcalFile(osPath:str, fileName:str, addition:int|None=None) -> None|int:
+    """Recursive function to detect if the file exists, if yes, than the num counter start to begin"""
+    returnValue = None
+    if addition:
+        if addition >= 1001:
+            raise RuntimeError("Tento pozadavek byl ")
+        if os.path.exists(osPath+fileName+"("+str(addition)+")"+".barcal"):
+            additionNumPlus = addition + 1
+            returnValue=checkIfOsPathExistsOnBarcalFile(osPath, fileName, additionNumPlus)
+        else:
+            returnValue = addition
+    elif os.path.exists(osPath+fileName+".barcal"):
+        returnValue = checkIfOsPathExistsOnBarcalFile(osPath, fileName, 1)
+    return returnValue
+
+# ! Functions for tar Update - not available in 1.0.X - BETA versions
 
 def setupBytesForTar(ar_of_files:list) -> list:
+    """Get bytes from file"""
     ar_of_bytes_files = []
     for route_file in ar_of_files:
         with open(route_file, "rb") as file:
@@ -116,6 +136,7 @@ def putBytesTogether(ar_of_bytes:list)->bytearray:
     return returnBytes
 
 def DOSMTh(oneBigByteArray:bytearray, separateArrayOfFiles:list[bytearray]):
+    """Doing something for future thing"""
     oneBigByteCounter = Counter(oneBigByteArray)
     CounterTree = lib_tree.buildTree(oneBigByteCounter)
     huffTree = lib_tree.build_Huff_Tree(CounterTree)
