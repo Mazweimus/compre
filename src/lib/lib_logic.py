@@ -39,7 +39,7 @@ def command_own_interface():
     resHelp = "Compre Help>>> "
 
 
-    version = "1.0.2 - BETA"
+    version = "1.0.3 - BETA"
     helpBlock = ""
     historyText = ""
     helpCurrentDirectoryHelpActivate = False

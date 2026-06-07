@@ -7,6 +7,12 @@ import lib.lib_tree as lib_tree
 
 def createCompressFile(route:str, save_route_status=False) -> None:
     """Create a compress file .barcal"""
+    if os.path.exists(route) is False:
+        print("Tato cesta v tomto zarineni neexistuje")
+        sys.exit(-1)
+    if os.path.getsize(route) == 0:
+        print("Tento soubor neobsahuje zadna data") 
+        sys.exit(-1)
     with open(route, "rb") as file:
         filelines = file.read()
         editableBytes = bytearray(filelines)
@@ -60,6 +66,9 @@ def createNormalFile(route:str) -> None:
     """From .barcal file converts to file that was previously"""
     if os.path.exists(route) is False:
         print("Tato cesta v tomto zarineni neexistuje")
+        sys.exit(-1)
+    if os.path.getsize(route) == 0:
+        print("Tento soubor neobsahuje zadna data") 
         sys.exit(-1)
     with open(route, "rb") as compressedFile:
         huffTree = pickle.load(compressedFile)
