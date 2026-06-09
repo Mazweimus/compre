@@ -24,6 +24,7 @@ def createCompressFile(route:str, save_route_status=False) -> None:
         endOfTheFile = os.path.splitext(route)[1]
         startOfTheFile = os.path.splitext(route)[0]
         osPath = startOfTheFile[::-1]
+        # TODO do it in function
         startTime = time.time()
         maxAllowedTime = startTime+0.05
         fileName = ""
@@ -37,6 +38,7 @@ def createCompressFile(route:str, save_route_status=False) -> None:
                 osPath = osPath[1:] 
         fileName = fileName[::-1]
         osPath = osPath[::-1]
+        # TODO end of the function
         numCheck = checkIfOsPathExistsOnBarcalFile(osPath, fileName)
         if numCheck is not None:
             fileName = fileName+"("+str(numCheck)+")"
@@ -68,7 +70,7 @@ def createCompressFile(route:str, save_route_status=False) -> None:
 def createNormalFile(route:str) -> None:
     """From .barcal file converts to file that was previously"""
     if os.path.exists(route) is False:
-        print("Tato cesta v tomto zarineni neexistuje")
+        print("Tato cesta v tomto zarizeni neexistuje")
         sys.exit(-1)
     if os.path.getsize(route) == 0:
         print("Tento soubor neobsahuje zadna data") 
@@ -76,8 +78,22 @@ def createNormalFile(route:str) -> None:
     with open(route, "rb") as compressedFile:
         huffTree = pickle.load(compressedFile)
         startOfTheCompressedFile = pickle.load(compressedFile)
-        if os.path.exists(startOfTheCompressedFile) is False:
-            startOfTheCompressedFile = os.getcwd()
+        osPath = startOfTheCompressedFile[::-1]
+        startTime = time.time()
+        maxAllowedTime = startTime+0.05
+        fileName = ""
+        while True:
+            if time.time() > maxAllowedTime:
+                raise RuntimeError("Vyprcel cas na to aby se urcila cesta, prosim zkontrolujte si, zda jste urcili dobre cestu")
+            if osPath[0] == "/" or osPath[0] == "\\":
+                break
+            else:
+                fileName += osPath[0]
+                osPath = osPath[1:] 
+        fileName = fileName[::-1]
+        osPath = osPath[::-1]
+        if os.path.exists(osPath) is not True:
+            osPath = os.getcwd()
         fileName = pickle.load(compressedFile)
         endOfTheCompressedFile = pickle.load(compressedFile)
         padding = int.from_bytes(compressedFile.read(1), byteorder="big")
@@ -100,9 +116,9 @@ def createNormalFile(route:str) -> None:
             if current_uzel.char is not None:
                 latestData.append(current_uzel.char)
                 current_uzel = strom
-        with open(startOfTheCompressedFile+ "/" + fileName+endOfTheCompressedFile, "wb") as f:
+        with open(osPath+fileName+endOfTheCompressedFile, "wb") as f:
             f.write(latestData)
-            print("hotovo")
+            print("Hotovo, slozka byla ulozena do "+osPath)
 def checkIfOsPathExistsOnBarcalFile(osPath:str, fileName:str, addition:int|None=None) -> None|int:
     """Recursive function to detect if the file exists, if yes, than the num counter start to begin"""
     returnValue = None
